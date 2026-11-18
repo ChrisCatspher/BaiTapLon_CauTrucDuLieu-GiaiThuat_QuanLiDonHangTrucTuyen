@@ -9,15 +9,6 @@
 #include "orderqueue.h"
 
 using namespace std;
-
-enum Status 
-{
-    ChoPheDuyet,
-    DaDuyet,
-    Huy,
-    HoanThanh
-};
-
 class OrderManager {
 private:
     vector<Order> orders;

@@ -1,37 +1,37 @@
+
 #include <iostream>
 #include "orderManager.h"
 using namespace std;
 
 int OrderManager::getTotalOrders()
 {
-    int dem = 0;
-    for (Node* p = queue.head; p != nullptr; p = p->next)
-    {
-        dem++;
-    }
-    return dem;
+    return orders.size();
 }
 
 double OrderManager::getTotalValue()
 {
     double tong = 0;
-    for (Node* p = queue.head; p != nullptr; p = p->next)
+
+    for (int i = 0; i < orders.size(); i++)
     {
-        tong += p->data.getTongTien();
+        tong += orders[i].getTongTien();
     }
+
     return tong;
 }
 
 int OrderManager::countByStatus(Status status)
 {
     int dem = 0;
-    for (Node* p = queue.head; p != nullptr; p = p->next)
+
+    for (int i = 0; i < orders.size(); i++)
     {
-        if (p->data.getTrangThai() == status)
+        if (orders[i].getTrangThai() == status)
         {
             dem++;
         }
     }
+
     return dem;
 }
 

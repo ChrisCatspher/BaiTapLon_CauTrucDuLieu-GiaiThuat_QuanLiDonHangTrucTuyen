@@ -1,5 +1,15 @@
+#pragma once
 #include <iostream>
+#include <string>
 using namespace std;
+
+enum Status
+{
+    ChoPheDuyet,
+    DaDuyet,
+    Huy,
+    HoanThanh
+};
 
 class Order {
 private:
@@ -7,19 +17,21 @@ private:
     {
         int ngay, thang, nam;
     };
-    
-    enum Status 
-    {
-        ChoPheDuyet,
-        DaDuyet,
-        Huy,
-        HoanThanh
-    };
 
     string orderId;
     string customerName;
     Date createDate;
     double tongtien;
     Status trangthai;
+
 public:
+    double getTongTien()
+    {
+        return tongtien;
+    }
+
+    Status getTrangThai()
+    {
+        return trangthai;
+    }
 };
