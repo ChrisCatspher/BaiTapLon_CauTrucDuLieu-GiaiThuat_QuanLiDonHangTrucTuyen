@@ -59,7 +59,7 @@ int main() {
 void displayMainMenu() {
     cout << "\n";
     cout << "====================================\n";
-    cout << "     LOGISTICS ORDER MANAGEMENT\n";
+    cout << "     LOGISTICS ORDER MANAGEMENTS\n";
     cout << "====================================\n";
     cout << "1. Order Management (CRUD)\n";
     cout << "2. Order Processing\n";
