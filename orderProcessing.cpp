@@ -70,7 +70,7 @@ bool OrderManager::cancelOrder(string id)
 
 bool OrderManager::completeOrder(string id)
 {
-   eturn updateStatus(id, HoanThanh);
+   return updateStatus(id, HoanThanh);
 }
 
 bool OrderManager::updateStatus(string id, Status status)
