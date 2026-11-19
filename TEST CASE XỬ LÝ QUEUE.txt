@@ -1,0 +1,113 @@
+TEST CASE XỬ LÝ QUEUE - ORDERPROCESSING
+=======================================
+
+Quy ước trạng thái: ChoPheDuyet, DaDuyet, Huy, HoanThanh
+Các test case này tương ứng 18 phép kiểm tra trong file TestOrderProcessing.cpp.
+Mỗi nhóm bắt đầu bằng một OrderManager mới (Queue rỗng).
+
+
+NHÓM 1: QUEUE RỖNG
+-------------------------------------------------------------
+TC01
+  Thao tác : Queue rỗng, gọi approveOrder("DH01")
+  Mong đợi : trả về false
+
+TC02
+  Thao tác : Queue rỗng, gọi cancelFrontOrder()
+  Mong đợi : trả về false
+
+
+NHÓM 2: FIFO VÀ PHÊ DUYỆT
+-------------------------------------------------------------
+Chuẩn bị: thêm DH01, DH02, DH03 (theo thứ tự) vào Queue.
+
+TC03
+  Thao tác : approveOrder("DH02") khi DH01 đang ở đầu Queue
+  Mong đợi : trả về false (chỉ được duyệt đơn ở đầu Queue)
+
+TC04
+  Thao tác : approveOrder("DH01")
+  Mong đợi : trả về true
+
+TC05
+  Thao tác : kiểm tra trạng thái DH01 sau TC04
+  Mong đợi : DaDuyet
+
+TC06
+  Thao tác : processNext()
+  Mong đợi : DH02 (đơn kế tiếp theo FIFO) chuyển sang DaDuyet
+
+
+NHÓM 3: HỦY ĐƠN Ở ĐẦU QUEUE
+-------------------------------------------------------------
+(Tiếp tục từ nhóm 2, lúc này DH03 đang ở đầu Queue)
+
+TC07
+  Thao tác : cancelFrontOrder()
+  Mong đợi : trả về true
+
+TC08
+  Thao tác : kiểm tra trạng thái DH03 sau TC07
+  Mong đợi : Huy
+
+
+NHÓM 4: HOÀN THÀNH ĐƠN
+-------------------------------------------------------------
+TC09
+  Thao tác : completeOrder("DH01") (DH01 đang DaDuyet)
+  Mong đợi : trả về true
+
+TC10
+  Thao tác : completeOrder("DH03") (DH03 đang Huy)
+  Mong đợi : trả về false
+
+
+NHÓM 5: CHUYỂN TRẠNG THÁI KHÔNG HỢP LỆ
+-------------------------------------------------------------
+TC11
+  Thao tác : updateStatus("DH01", Huy) (DH01 đang HoanThanh)
+  Mong đợi : trả về false
+
+TC12
+  Thao tác : cancelOrder("DH02") (DH02 đang DaDuyet)
+  Mong đợi : trả về false
+
+TC13
+  Thao tác : updateStatus("KHONGCO", DaDuyet) (id không tồn tại)
+  Mong đợi : trả về false
+
+
+NHÓM 6: ĐƯA ĐƠN VÀO QUEUE
+-------------------------------------------------------------
+TC14
+  Thao tác : addOrderToQueue("DH02") (DH02 đang DaDuyet)
+  Mong đợi : trả về false (chỉ nhận đơn ChoPheDuyet)
+
+
+NHÓM 7: ĐỒNG BỘ QUEUE KHI HỦY ĐƠN Ở GIỮA
+-------------------------------------------------------------
+Chuẩn bị: OrderManager mới, thêm A, B, C vào Queue.
+
+TC15
+  Thao tác : cancelOrder("B") (B nằm giữa Queue)
+  Mong đợi : trả về true, B bị loại khỏi Queue
+
+TC16
+  Thao tác : approveOrder("A")
+  Mong đợi : trả về true
+
+TC17
+  Thao tác : approveOrder("C")
+  Mong đợi : trả về true (B đã bị bỏ, C là đơn kế tiếp)
+
+
+NHÓM 8: ĐỒNG BỘ QUEUE KHI XÓA ĐƠN
+-------------------------------------------------------------
+Chuẩn bị: OrderManager mới, thêm X, Y vào Queue.
+
+TC18
+  Thao tác : deleteOrder("X"), sau đó approveOrder("Y")
+  Mong đợi : approveOrder("Y") trả về true (X đã bị xóa nên Y lên đầu Queue)
+
+
+KẾT QUẢ MONG ĐỢI KHI CHẠY: 18/18 test đạt
