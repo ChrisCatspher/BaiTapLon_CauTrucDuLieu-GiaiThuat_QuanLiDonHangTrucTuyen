@@ -34,4 +34,8 @@ public:
     {
         return trangthai;
     }
+     void setTrangThai(Status s)
+    {
+        trangthai = s;
+    }
 };
