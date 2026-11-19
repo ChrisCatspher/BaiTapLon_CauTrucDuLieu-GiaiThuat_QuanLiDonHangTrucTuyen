@@ -32,8 +32,11 @@ void OrderManager::processNext()
     }
 
     string id = pendingQueue.front();
-    approveOrder(id);
-    cout << "Da phe duyet don " << id << endl;
+    if (approveOrder(id))
+        cout << "Da phe duyet don " << id << endl;
+    else
+        cout << "Khong the phe duyet don " << id << endl;
+    
 }
 
 bool OrderManager::approveOrder(string id)
