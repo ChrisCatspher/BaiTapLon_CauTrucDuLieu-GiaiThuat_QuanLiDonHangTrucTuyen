@@ -31,6 +31,9 @@ public:
     bool cancelOrder(string id);
     bool completeOrder(string id);
     bool updateStatus(string id, Status status);
+    bool addOrderToQueue(string id);
+    void syncQueue();
+    bool cancelFrontOrder();
 
     // Search - Thanh vien 4
     vector<Order*> findByDate(string date);
