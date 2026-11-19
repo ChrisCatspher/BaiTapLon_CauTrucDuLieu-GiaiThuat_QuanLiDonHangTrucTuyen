@@ -1,12 +1,12 @@
+
 #include <iostream>
 #include <string>
-
-#include "orderManager.h"
+#include "OrderManager.h"
 #include "InputUtils.h"
 
 using namespace std;
 
-// ===== KHAI BAO MENU =====
+// ===== CAC HAM MENU =====
 
 void displayMainMenu();
 void displayCRUDMenu();
@@ -18,6 +18,22 @@ void CRUDMenu(OrderManager& manager);
 void ProcessingMenu(OrderManager& manager);
 void SearchMenu(OrderManager& manager);
 void StatisticsMenu(OrderManager& manager);
+
+// ===== KIEM TRA NGAY THANG =====
+
+bool namNhuan(int nam) return (nam % 400 == 0) || (nam % 4 == 0 && nam % 100 != 0);
+
+bool validateDate(int ngay, int thang, int nam) {
+    if (nam < 1 || thang < 1 || thang > 12) return false;
+
+    int soNgayTrongThang[] = {
+        0, 31, 28, 31, 30, 31, 30,
+        31, 31, 30, 31, 30, 31
+    };
+
+    if (thang == 2 && namNhuan(nam)) soNgayTrongThang[2] = 29;
+    return ngay >= 1 && ngay <= soNgayTrongThang[thang];
+}
 
 // ===== MAIN =====
 
@@ -47,7 +63,7 @@ int main() {
                 break;
 
             case 0:
-                cout << "Thoat chuong trinh.\n";
+                cout << "Ket thuc chuong trinh.\n";
                 break;
 
             default:
@@ -64,13 +80,13 @@ int main() {
 void displayMainMenu() {
     cout << "\n";
     cout << "====================================\n";
-    cout << "     LOGISTICS ORDER MANAGEMENT\n";
+    cout << "    QUAN LY DON DAT HANG ONLINE\n";
     cout << "====================================\n";
-    cout << "1. Order Management (CRUD)\n";
-    cout << "2. Order Processing\n";
-    cout << "3. Order Search\n";
-    cout << "4. Order Statistics\n";
-    cout << "0. Exit\n";
+    cout << "1. Quan ly don hang (CRUD)\n";
+    cout << "2. Xu ly don hang (Queue)\n";
+    cout << "3. Tim kiem don hang\n";
+    cout << "4. Thong ke don hang\n";
+    cout << "0. Thoat\n";
     cout << "====================================\n";
 }
 
@@ -78,12 +94,12 @@ void displayMainMenu() {
 
 void displayCRUDMenu() {
     cout << "\n";
-    cout << "========== ORDER MANAGEMENT ==========\n";
-    cout << "1. Add new order\n";
-    cout << "2. Delete order\n";
-    cout << "3. Find order by ID\n";
-    cout << "4. Display all orders\n";
-    cout << "0. Back\n";
+    cout << "========== QUAN LY DON HANG ==========\n";
+    cout << "1. Them don hang\n";
+    cout << "2. Xoa don hang\n";
+    cout << "3. Tim don hang theo ma\n";
+    cout << "4. Hien thi tat ca don hang\n";
+    cout << "0. Quay lai\n";
     cout << "======================================\n";
 }
 
@@ -96,18 +112,39 @@ void CRUDMenu(OrderManager& manager) {
         choice = inputInt("Nhap lua chon: ");
 
         switch (choice) {
-            case 1:
-                cout << "Chuc nang them don hang dang cho "
-                     << "hoan thien constructor Order.\n";
+            case 1: {
+                id = inputString("Nhap ma don hang: ");
+                string name = inputString("Nhap ten khach hang: ");
+                int ngay, thang, nam;
+
+                while (true) {
+                    cout << "Nhap ngay thang nam (dd mm yyyy): ";
+
+                    ngay = inputInt("Ngay: ");
+                    thang = inputInt("Thang: ");
+                    nam = inputInt("Nam: ");
+
+                    if (validateDate(ngay, thang, nam)) break;
+
+                    cout << "Ngay thang khong hop le! Nhap lai.\n";
+                }
+
+                double tien = inputDouble("Nhap tong tien: ");
+
+                Order order(id, name, ngay, thang, nam, tien, ChoPheDuyet);
+
+                if (manager.addOrder(order)) cout << "Them don hang thanh cong!\n";
+                else cout << "Ma don hang da ton tai hoac them that bai!\n";
+
                 break;
+            }
 
             case 2:
                 id = inputString("Nhap ma don hang can xoa: ");
 
-                if (manager.deleteOrder(id))
-                    cout << "Xoa don hang thanh cong!\n";
-                else
-                    cout << "Khong the xoa don hang!\n";
+                if (manager.deleteOrder(id)) cout << "Xoa don hang thanh cong!\n";
+                else cout << "Khong tim thay don hang!\n";
+
                 break;
 
             case 3:
@@ -133,14 +170,14 @@ void CRUDMenu(OrderManager& manager) {
 
 void displayProcessingMenu() {
     cout << "\n";
-    cout << "========== ORDER PROCESSING ==========\n";
-    cout << "1. Process next order\n";
-    cout << "2. Approve order by ID\n";
-    cout << "3. Cancel order by ID\n";
-    cout << "4. Cancel front order\n";
-    cout << "5. Complete order\n";
-    cout << "0. Back\n";
-    cout << "======================================\n";
+    cout << "========== XU LY DON HANG ==========\n";
+    cout << "1. Xu ly don tiep theo trong Queue\n";
+    cout << "2. Phe duyet don hang theo ma\n";
+    cout << "3. Huy don hang theo ma\n";
+    cout << "4. Huy don dau Queue\n";
+    cout << "5. Hoan thanh don hang\n";
+    cout << "0. Quay lai\n";
+    cout << "===================================\n";
 }
 
 void ProcessingMenu(OrderManager& manager) {
@@ -157,37 +194,33 @@ void ProcessingMenu(OrderManager& manager) {
                 break;
 
             case 2:
-                id = inputString("Nhap ma don hang can phe duyet: ");
+                id = inputString("Nhap ma don can phe duyet: ");
 
-                if (manager.approveOrder(id))
-                    cout << "Phe duyet don hang thanh cong!\n";
-                else
-                    cout << "Khong the phe duyet don hang!\n";
+                if (manager.approveOrder(id)) cout << "Phe duyet thanh cong!\n";
+                else cout << "Khong the phe duyet don hang!\n";
+
                 break;
 
             case 3:
-                id = inputString("Nhap ma don hang can huy: ");
+                id = inputString("Nhap ma don can huy: ");
 
-                if (manager.cancelOrder(id))
-                    cout << "Huy don hang thanh cong!\n";
-                else
-                    cout << "Khong the huy don hang!\n";
+                if (manager.cancelOrder(id)) cout << "Huy don hang thanh cong!\n";
+                else cout << "Khong the huy don hang!\n";
+
                 break;
 
             case 4:
-                if (manager.cancelFrontOrder())
-                    cout << "Da huy don hang dau Queue!\n";
-                else
-                    cout << "Khong co don hang cho xu ly!\n";
+                if (manager.cancelFrontOrder()) cout << "Da huy don dau Queue!\n";
+                else cout << "Queue dang rong!\n";
+
                 break;
 
             case 5:
-                id = inputString("Nhap ma don hang can hoan thanh: ");
+                id = inputString("Nhap ma don can hoan thanh: ");
 
-                if (manager.completeOrder(id))
-                    cout << "Hoan thanh don hang thanh cong!\n";
-                else
-                    cout << "Khong the hoan thanh don hang!\n";
+                if (manager.completeOrder(id)) cout << "Hoan thanh don hang thanh cong!\n";
+                else cout << "Khong the hoan thanh don hang!\n";
+
                 break;
 
             case 0:
@@ -204,11 +237,11 @@ void ProcessingMenu(OrderManager& manager) {
 
 void displaySearchMenu() {
     cout << "\n";
-    cout << "============= ORDER SEARCH ===========\n";
-    cout << "1. Search orders by date\n";
-    cout << "2. Search orders by status\n";
-    cout << "0. Back\n";
-    cout << "======================================\n";
+    cout << "========== TIM KIEM DON HANG ==========\n";
+    cout << "1. Tim theo ngay tao\n";
+    cout << "2. Loc theo trang thai\n";
+    cout << "0. Quay lai\n";
+    cout << "=======================================\n";
 }
 
 void SearchMenu(OrderManager& manager) {
@@ -227,16 +260,19 @@ void SearchMenu(OrderManager& manager) {
                 break;
 
             case 2:
-                cout << "\n===== ORDER STATUS =====\n";
-                cout << "0. Cho phe duyet\n";
+                cout << "\n0. Cho phe duyet\n";
                 cout << "1. Da duyet\n";
                 cout << "2. Huy\n";
                 cout << "3. Hoan thanh\n";
 
                 status = inputInt("Nhap trang thai: ");
 
-                if (status >= 0 && status <= 3) manager.displayByStatus(static_cast<Status>(status));
-                else cout << "Trang thai khong hop le!\n";
+                if (status >= 0 && status <= 3) {
+                    manager.displayByStatus(
+                        static_cast<Status>(status)
+                    );
+                } else cout << "Trang thai khong hop le!\n";
+
                 break;
 
             case 0:
@@ -253,10 +289,10 @@ void SearchMenu(OrderManager& manager) {
 
 void displayStatisticsMenu() {
     cout << "\n";
-    cout << "========== ORDER STATISTICS =========\n";
-    cout << "1. View statistics\n";
-    cout << "0. Back\n";
-    cout << "======================================\n";
+    cout << "========== THONG KE DON HANG ==========\n";
+    cout << "1. Xem thong ke\n";
+    cout << "0. Quay lai\n";
+    cout << "=======================================\n";
 }
 
 void StatisticsMenu(OrderManager& manager) {
