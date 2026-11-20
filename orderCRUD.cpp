@@ -1,31 +1,7 @@
-#include "orderManager.h"
-
-#include <algorithm>
-#include <cmath>
-
-namespace {
-bool isValidDate(int day, int month, int year) {
-    if (year < 1 || month < 1 || month > 12)
         return false;
 
-    const int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    const bool leapYear = year % 400 == 0 || (year % 4 == 0 && year % 100 != 0);
-    const int maxDay = daysInMonth[month - 1] + (month == 2 && leapYear);
-    return day >= 1 && day <= maxDay;
-}
-}
-
-bool OrderManager::addOrder(const Order& order) {
-    const string id = order.getOrderId();
-    const double total = order.getTongTien();
-
-    if (id.find_first_not_of(" \t\n\r\f\v") == string::npos ||
-        order.getCustomerName().find_first_not_of(" \t\n\r\f\v") == string::npos ||
-        !isValidDate(order.getNgay(), order.getThang(), order.getNam()) ||
-        !std::isfinite(total) || total < 0 ||
-        order.getTrangThai() != ChoPheDuyet || findOrderById(id) != nullptr) {
+    if (order.getTrangThai() != ChoPheDuyet || findOrderById(id) != nullptr)
         return false;
-    }
 
     orders.push_back(order);
 
@@ -39,15 +15,16 @@ bool OrderManager::addOrder(const Order& order) {
 }
 
 bool OrderManager::deleteOrder(string id) {
-    const auto found = std::find_if(orders.begin(), orders.end(), [&id](const Order& order) {
-        return order.getOrderId() == id;
-    });
-    if (found == orders.end())
-        return false;
+    for (auto it = orders.begin(); it != orders.end(); ++it) {
+        if (it->getOrderId() == id) {
+            orders.erase(it);
+            // Bo ma don vua xoa khoi Queue neu don con dang cho.
+            syncQueue();
+            return true;
+        }
+    }
 
-    orders.erase(found);
-    syncQueue();
-    return true;
+    return false;
 }
 
 Order* OrderManager::findOrderById(string id) {
@@ -76,7 +53,6 @@ void OrderManager::displayAllOrders() {
     }
 
     vector<Order*> result;
-    result.reserve(orders.size());
     for (Order& order : orders)
         result.push_back(&order);
 
