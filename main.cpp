@@ -18,24 +18,6 @@ void ProcessingMenu(OrderManager& manager);
 void SearchMenu(OrderManager& manager);
 void StatisticsMenu(OrderManager& manager);
 
-// ===== KIEM TRA NGAY THANG =====
-
-bool namNhuan(int nam) {
-    return (nam % 400 == 0) || (nam % 4 == 0 && nam % 100 != 0);
-}
-
-bool validateDate(int ngay, int thang, int nam) {
-    if (nam < 1 || thang < 1 || thang > 12) return false;
-
-    int soNgayTrongThang[] = {
-        0, 31, 28, 31, 30, 31, 30,
-        31, 31, 30, 31, 30, 31
-    };
-
-    if (thang == 2 && namNhuan(nam)) soNgayTrongThang[2] = 29;
-    return ngay >= 1 && ngay <= soNgayTrongThang[thang];
-}
-
 // ===== MAIN =====
 
 int main() {
