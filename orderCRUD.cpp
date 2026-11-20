@@ -1,6 +1,8 @@
 #include "orderManager.h"
 #include <cmath>
 
+using namespace std;
+
 namespace {
 bool isValidDate(int day, int month, int year) {
     if (year < 1 || month < 1 || month > 12)
@@ -15,6 +17,7 @@ bool isValidDate(int day, int month, int year) {
 }
 }
 
+
 bool OrderManager::addOrder(const Order& order) {
     const string id = order.getOrderId();
     const double total = order.getTongTien();
@@ -28,7 +31,7 @@ bool OrderManager::addOrder(const Order& order) {
     if (!isValidDate(order.getNgay(), order.getThang(), order.getNam()))
         return false;
 
-    if (!std::isfinite(total) || total < 0)
+    if (!isfinite(total) || total < 0)
         return false;
 
     if (order.getTrangThai() != ChoPheDuyet || findOrderById(id) != nullptr)
@@ -36,7 +39,7 @@ bool OrderManager::addOrder(const Order& order) {
 
     orders.push_back(order);
 
-    // Xu ly Queue can tim thay don trong danh sach truoc khi enqueue.
+    // Phần này để xử lý Queue.
     if (!addOrderToQueue(id)) {
         orders.pop_back();
         return false;
