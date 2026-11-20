@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #pragma once
 using namespace std;
 
@@ -25,6 +26,7 @@ public:
     void enqueue(string id);
     void dequeue();
     string front();
-    bool isEmpty();
-    int getSize();
+    bool isEmpty() const;
+    int getSize() const;
+    bool contains(string id) const;
 };

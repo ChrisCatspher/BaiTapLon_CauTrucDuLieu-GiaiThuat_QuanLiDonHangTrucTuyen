@@ -1,10 +1,10 @@
 #pragma once
 #include <iostream>
 #include <string>
+
 using namespace std;
 
-enum Status
-{
+enum Status {
     ChoPheDuyet,
     DaDuyet,
     Huy,
@@ -13,8 +13,7 @@ enum Status
 
 class Order {
 private:
-    struct Date
-    {
+    struct Date {
         int ngay, thang, nam;
     };
 
@@ -25,17 +24,19 @@ private:
     Status trangthai;
 
 public:
-    double getTongTien()
-    {
-        return tongtien;
-    }
+    Order(string id, string name, int ngay, int thang, int nam, double tongtien, Status trangthai);
 
-    Status getTrangThai()
-    {
-        return trangthai;
-    }
-     void setTrangThai(Status s)
-    {
-        trangthai = s;
-    }
+    double getTongTien() const;
+    Status getTrangThai() const;
+
+    void setTrangThai(Status s);
+
+    int getNgay() const;
+    int getThang() const;
+    int getNam() const;
+
+    string getOrderId() const;
+    string getCustomerName() const;
+
+    string getTrangThaiText() const;
 };

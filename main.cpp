@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "OrderManager.h"
+#include "orderManager.h"
 #include "InputUtils.h"
 
 using namespace std;
@@ -20,7 +20,9 @@ void StatisticsMenu(OrderManager& manager);
 
 // ===== KIEM TRA NGAY THANG =====
 
-bool namNhuan(int nam) return (nam % 400 == 0) || (nam % 4 == 0 && nam % 100 != 0);
+bool namNhuan(int nam) {
+    return (nam % 400 == 0) || (nam % 4 == 0 && nam % 100 != 0);
+}
 
 bool validateDate(int ngay, int thang, int nam) {
     if (nam < 1 || thang < 1 || thang > 12) return false;

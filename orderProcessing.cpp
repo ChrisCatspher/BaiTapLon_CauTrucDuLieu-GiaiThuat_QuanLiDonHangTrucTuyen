@@ -1,13 +1,18 @@
 #include "orderManager.h"
+//đã có kiểm tra trùng trong orderqueue.cpp rồi nên ko cần kiếm tra lại nhiều
 bool OrderManager::addOrderToQueue(string id)
 {
     Order* order = findOrderById(id);
     if (order == nullptr || order->getTrangThai() != ChoPheDuyet)
         return false;
 
+    syncQueue();
+    if (pendingQueue.contains(id))
+        return false;
     pendingQueue.enqueue(id);
     return true;
 }
+
 void OrderManager::syncQueue()
 {
     int n = pendingQueue.getSize();
@@ -21,10 +26,9 @@ void OrderManager::syncQueue()
             pendingQueue.enqueue(id);
     }
 }
+//bỏ bớt 1 lần syncqueue trong processNext vì ko cần thiết
 void OrderManager::processNext()
 {
-    syncQueue();
-
     if (pendingQueue.isEmpty())
     {
         cout << "Khong co don nao dang cho xu ly." << endl;
@@ -39,6 +43,7 @@ void OrderManager::processNext()
     
 }
 
+//Queue chỉ xóa đơn khi việc cập nhật trạng thái thành công (sửa trong approverOrder và cancelFrontOrder)
 bool OrderManager::approveOrder(string id)
 {
     syncQueue();
@@ -46,10 +51,13 @@ bool OrderManager::approveOrder(string id)
     if (pendingQueue.isEmpty() || pendingQueue.front() != id)
         return false;
 
-    updateStatus(id, DaDuyet);
+    if(!updateStatus(id, DaDuyet))
+        return false;
+
     pendingQueue.dequeue();
     return true;
 }
+
 bool OrderManager::cancelFrontOrder()
 {
     syncQueue();
@@ -57,7 +65,11 @@ bool OrderManager::cancelFrontOrder()
     if (pendingQueue.isEmpty())
         return false;
 
-    updateStatus(pendingQueue.front(), Huy);
+    string id = pendingQueue.front();
+
+    if (!updateStatus(id, Huy))
+        return false;
+
     pendingQueue.dequeue();
     return true;
 }

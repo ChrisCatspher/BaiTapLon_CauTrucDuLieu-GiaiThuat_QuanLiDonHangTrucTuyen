@@ -35,11 +35,12 @@ public:
     void syncQueue();
     bool cancelFrontOrder();
 
-    // Search - Thanh vien 4
+    // Search - Thanh vien 4 - finished
     vector<Order*> findByDate(string date);
     vector<Order*> findByStatus(Status status);
     void displayByDate(string date);
     void displayByStatus(Status status);
+    void displayOrders(const vector<Order*>& ds);
 
     // Statistics - Thanh vien 5
     int getTotalOrders();

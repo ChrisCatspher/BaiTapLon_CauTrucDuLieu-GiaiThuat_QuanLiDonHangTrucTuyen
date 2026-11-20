@@ -1,5 +1,5 @@
 
-#include "OrderQueue.h"
+#include "orderqueue.h"
 
 OrderQueue::OrderQueue() {
     head = nullptr;
@@ -51,10 +51,23 @@ string OrderQueue::front() {
     return head->id;
 }
 
-bool OrderQueue::isEmpty() {
+bool OrderQueue::isEmpty() const{
     return head == nullptr;
 }
 
-int OrderQueue::getSize() {
+int OrderQueue::getSize() const{
     return size;
+}
+
+bool OrderQueue::contains(string id) const {
+    Node* current = head;
+
+    while (current != nullptr) {
+        if (current->id == id)
+            return true;
+
+        current = current->next;
+    }
+
+    return false;
 }
