@@ -107,7 +107,7 @@ void CRUDMenu(OrderManager& manager) {
                     thang = inputInt("Thang: ");
                     nam = inputInt("Nam: ");
 
-                    if (validateDate(ngay, thang, nam)) break;
+                    if (manager.validateDate(ngay, thang, nam)) break;
 
                     cout << "Ngay thang khong hop le! Nhap lai.\n";
                 }
