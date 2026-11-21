@@ -41,6 +41,8 @@ public:
     void displayByDate(string date);
     void displayByStatus(Status status);
     void displayOrders(const vector<Order*>& ds);
+    bool namNhuan(int nam);
+    bool validateDate(int ngay, int thang, int nam);
 
     // Statistics - Thanh vien 5
     int getTotalOrders();
