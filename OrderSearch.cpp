@@ -5,11 +5,11 @@
 
 using namespace std;
 
-bool namNhuan(int nam) {
+bool  OrderManager::namNhuan(int nam) {
     return (nam % 400 == 0) || (nam % 4 == 0 && nam % 100 != 0);
 }
 
-bool validateDate(int ngay, int thang, int nam) {
+bool  OrderManager::validateDate(int ngay, int thang, int nam) {
     if (nam < 1 || thang < 1 || thang > 12)
         return false;
 
