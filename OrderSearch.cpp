@@ -5,27 +5,24 @@
 
 using namespace std;
 
-//////////////////////////////////////////////////////////////////
-// Tạm thời không cần dùng đến vì ở main.cpp đã có phần kiểm tra rồi
-// bool namNhuan(int nam) {
-//     return (nam % 400 == 0) || (nam % 4 == 0 && nam % 100 != 0);
-// }
+bool namNhuan(int nam) {
+    return (nam % 400 == 0) || (nam % 4 == 0 && nam % 100 != 0);
+}
 
-// bool validateDate(int ngay, int thang, int nam) {
-//     if (nam < 1 || thang < 1 || thang > 12)
-//         return false;
+bool validateDate(int ngay, int thang, int nam) {
+    if (nam < 1 || thang < 1 || thang > 12)
+        return false;
 
-//     int soNgayTrongThang[] = {
-//         0, 31, 28, 31, 30, 31, 30,
-//         31, 31, 30, 31, 30, 31
-//     };
+    int soNgayTrongThang[] = {
+        0, 31, 28, 31, 30, 31, 30,
+        31, 31, 30, 31, 30, 31
+    };
 
-//     if (thang == 2 && namNhuan(nam))
-//         soNgayTrongThang[2] = 29;
+    if (thang == 2 && namNhuan(nam))
+        soNgayTrongThang[2] = 29;
 
-//     return ngay >= 1 && ngay <= soNgayTrongThang[thang];
-// }
-//////////////////////////////////////////////////////////////////
+    return ngay >= 1 && ngay <= soNgayTrongThang[thang];
+}
 
 string dateToString(int ngay, int thang, int nam) {
     string s = "";
@@ -103,7 +100,6 @@ void OrderManager::displayByStatus(Status status) {
     displayOrders(findByStatus(status));
 }
 
-//////////////////////////////////////////////////////////////////
 // CODE CŨ
 // void displayOrders(queue<Order> ds) {
 //     if (ds.empty()) {
