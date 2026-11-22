@@ -14,7 +14,7 @@ TC01
 
 TC02
   Thao tác : Queue rỗng, gọi cancelFrontOrder()
-  Mong đợi : trả về false
+  Mong đợi : trả về "Queue dang rong!"
 
 
 NHÓM 2: FIFO VÀ PHÊ DUYỆT
@@ -23,19 +23,19 @@ Chuẩn bị: thêm DH01, DH02, DH03 (theo thứ tự) vào Queue.
 
 TC03
   Thao tác : approveOrder("DH02") khi DH01 đang ở đầu Queue
-  Mong đợi : trả về false (chỉ được duyệt đơn ở đầu Queue)
+  Mong đợi : trả về "Khong the phe duyet don hang!" vì DH01 đứng trước
 
 TC04
   Thao tác : approveOrder("DH01")
-  Mong đợi : trả về true
+  Mong đợi : trả về  "Phe duyet thanh cong!"
 
 TC05
   Thao tác : kiểm tra trạng thái DH01 sau TC04
-  Mong đợi : DaDuyet
+  Mong đợi : trả về "Da duyet"
 
 TC06
   Thao tác : processNext()
-  Mong đợi : DH02 (đơn kế tiếp theo FIFO) chuyển sang DaDuyet
+  Mong đợi : "Da phe duyet don DH02"
 
 
 NHÓM 3: HỦY ĐƠN Ở ĐẦU QUEUE
@@ -44,44 +44,44 @@ NHÓM 3: HỦY ĐƠN Ở ĐẦU QUEUE
 
 TC07
   Thao tác : cancelFrontOrder()
-  Mong đợi : trả về true
+  Mong đợi : trả về "Da huy don dau Queue!"
 
 TC08
   Thao tác : kiểm tra trạng thái DH03 sau TC07
-  Mong đợi : Huy
+  Mong đợi : trạng thái "Huy"
 
 
 NHÓM 4: HOÀN THÀNH ĐƠN
 -------------------------------------------------------------
 TC09
   Thao tác : completeOrder("DH01") (DH01 đang DaDuyet)
-  Mong đợi : trả về true
+  Mong đợi : trả về "Hoan thanh don hang thanh cong!"
 
 TC10
   Thao tác : completeOrder("DH03") (DH03 đang Huy)
-  Mong đợi : trả về false
+  Mong đợi : trả về "Khong the hoan thanh don hang!"
 
 
 NHÓM 5: CHUYỂN TRẠNG THÁI KHÔNG HỢP LỆ
 -------------------------------------------------------------
 TC11
   Thao tác : updateStatus("DH01", Huy) (DH01 đang HoanThanh)
-  Mong đợi : trả về false
+  Mong đợi : trả về "Khong the huy don hang!"
 
 TC12
   Thao tác : cancelOrder("DH02") (DH02 đang DaDuyet)
-  Mong đợi : trả về false
+  Mong đợi : trả về "Khong the huy don hang!"
 
 TC13
-  Thao tác : updateStatus("KHONGCO", DaDuyet) (id không tồn tại)
-  Mong đợi : trả về false
+  Thao tác : updateStatus("KHONGCO", DaDuyet)
+  Mong đợi : trả về "Khong the hoan thanh don hang"
 
 
 NHÓM 6: ĐƯA ĐƠN VÀO QUEUE
 -------------------------------------------------------------
 TC14
   Thao tác : addOrderToQueue("DH02") (DH02 đang DaDuyet)
-  Mong đợi : trả về false (chỉ nhận đơn ChoPheDuyet)
+  Mong đợi : trả về "Ma don hang ton tai hoac them that bai!"
 
 
 NHÓM 7: ĐỒNG BỘ QUEUE KHI HỦY ĐƠN Ở GIỮA
@@ -90,15 +90,15 @@ Chuẩn bị: OrderManager mới, thêm A, B, C vào Queue.
 
 TC15
   Thao tác : cancelOrder("B") (B nằm giữa Queue)
-  Mong đợi : trả về true, B bị loại khỏi Queue
+  Mong đợi : trả về "huy don hang thanh cong", B bị loại khỏi Queue
 
 TC16
   Thao tác : approveOrder("A")
-  Mong đợi : trả về true
+  Mong đợi : trả về "da phe duyet thanh cong"
 
 TC17
   Thao tác : approveOrder("C")
-  Mong đợi : trả về true (B đã bị bỏ, C là đơn kế tiếp)
+  Mong đợi : trả về "Phe duyet thanh cong" (B đã bị bỏ, C là đơn kế tiếp)
 
 
 NHÓM 8: ĐỒNG BỘ QUEUE KHI XÓA ĐƠN
@@ -107,6 +107,7 @@ Chuẩn bị: OrderManager mới, thêm X, Y vào Queue.
 
 TC18
   Thao tác : deleteOrder("X"), sau đó approveOrder("Y")
+  Mong đợi: Hủy đơn hàng X và trả về "Da phe duyet don Y"
   Mong đợi : approveOrder("Y") trả về true (X đã bị xóa nên Y lên đầu Queue)
 
 
