@@ -17,7 +17,12 @@ private:
 public:
     OrderManager();
     ~OrderManager();
-
+    bool isValidDate(int ngay, int thang, int nam);
+    bool isNotFutureDate(int ngay, int thang, int nam);
+    bool saveToFile(const string& filename);
+    bool saveDataToFile(const string& filename);
+    bool loadFromFile(const string& filename);
+    
     // CRUD - Thanh vien 2
     bool addOrder(const Order& order);
     bool deleteOrder(string id);

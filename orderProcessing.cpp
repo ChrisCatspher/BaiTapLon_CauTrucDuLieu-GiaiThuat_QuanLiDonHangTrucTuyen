@@ -26,7 +26,6 @@ void OrderManager::syncQueue()
             pendingQueue.enqueue(id);
     }
 }
-//bỏ bớt 1 lần syncqueue trong processNext vì ko cần thiết
 void OrderManager::processNext()
 {
     if (pendingQueue.isEmpty())
@@ -43,12 +42,14 @@ void OrderManager::processNext()
     
 }
 
-//Queue chỉ xóa đơn khi việc cập nhật trạng thái thành công (sửa trong approverOrder và cancelFrontOrder)
 bool OrderManager::approveOrder(string id)
 {
-    syncQueue();
-
     if (pendingQueue.isEmpty() || pendingQueue.front() != id)
+        return false;
+
+    Order* order = findOrderById(id);
+
+    if (order == nullptr || order->getTrangThai() != ChoPheDuyet)
         return false;
 
     if(!updateStatus(id, DaDuyet))
@@ -76,10 +77,21 @@ bool OrderManager::cancelFrontOrder()
 
 bool OrderManager::cancelOrder(string id)
 {
+    Order* order = findOrderById(id);
+
+    if (order == nullptr)
+        return false;
+
+    Status current = order->getTrangThai();
+
+    if (current != ChoPheDuyet && current != DaDuyet)
+        return false;
+
     if (!updateStatus(id, Huy))
         return false;
 
-    syncQueue();
+    pendingQueue.remove(id);
+
     return true;
 }
 
@@ -96,15 +108,19 @@ bool OrderManager::updateStatus(string id, Status status)
 
     Status current = order->getTrangThai();
     
-    if (current == ChoPheDuyet && (status == DaDuyet || status == Huy))
+    if (current == ChoPheDuyet)
     {
-        order->setTrangThai(status);
-        return true;
+        if (status == DaDuyet || status == Huy) {
+            order->setTrangThai(status);
+            return true;
+        }
     }
-    if (current == DaDuyet && status == HoanThanh)
-    {
-        order->setTrangThai(status);
-        return true;
+
+    if (current == DaDuyet) {
+        if (status == HoanThanh || status == Huy) {
+            order->setTrangThai(status);
+            return true;
+        }
     }
 
     return false;

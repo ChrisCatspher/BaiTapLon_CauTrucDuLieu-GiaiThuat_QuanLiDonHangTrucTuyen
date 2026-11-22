@@ -1,4 +1,7 @@
 #include "InputUtils.h"
+#include <sstream>
+#include <cmath>
+
 int inputInt(string message) {
     int value;
 
@@ -18,20 +21,22 @@ int inputInt(string message) {
 }
 
 double inputDouble(string message) {
+    string input;
     double value;
 
     while (true) {
         cout << message;
+        getline(cin, input);
 
-        if (cin >> value && value >= 0) {
-            cin.ignore(10000, '\n');
+        stringstream ss(input);
+        char extra;
+
+        if ((ss >> value) && !(ss >> extra)
+            && isfinite(value) && value >= 0) {
             return value;
         }
 
-        cout << "Du lieu khong hop le! Vui long nhap so khong am.\n";
-
-        cin.clear();
-        cin.ignore(10000, '\n');
+        cout << "Du lieu khong hop le! Vui long nhap so thuc khong am.\n";
     }
 }
 

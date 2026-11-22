@@ -1,6 +1,6 @@
+#pragma once
 #include <iostream>
 #include <string>
-#pragma once
 using namespace std;
 
 struct Node {
@@ -29,4 +29,5 @@ public:
     bool isEmpty() const;
     int getSize() const;
     bool contains(string id) const;
+    bool remove(string id);
 };

@@ -71,3 +71,35 @@ bool OrderQueue::contains(string id) const {
 
     return false;
 }
+
+bool OrderQueue::remove(string id) {
+    if (isEmpty()) return false;
+
+    Node* current = head;
+    Node* previous = nullptr;
+
+    while (current != nullptr) {
+        if (current->id == id) {
+            if (previous == nullptr) {
+                head = current->next;
+            }
+            else {
+                previous->next = current->next;
+            }
+
+            if (current == tail) {
+                tail = previous;
+            }
+
+            delete current;
+            size--;
+
+            return true;
+        }
+
+        previous = current;
+        current = current->next;
+    }
+
+    return false;
+}

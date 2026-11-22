@@ -1,0 +1,7 @@
+main
+main.exe
+*.exe
+*.o
+orders.txt
+orders_data.txt
+.vscode/

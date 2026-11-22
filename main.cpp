@@ -22,6 +22,9 @@ void StatisticsMenu(OrderManager& manager);
 
 int main() {
     OrderManager manager;
+    if (manager.loadFromFile("orders_data.txt")) cout << "Da tai du lieu don hang thanh cong!\n";
+    else cout << "Chua co du lieu cu. Bat dau voi danh sach rong.\n";
+
     int choice;
 
     do {
@@ -46,7 +49,11 @@ int main() {
                 break;
 
             case 0:
-                cout << "Ket thuc chuong trinh.\n";
+                if (manager.saveToFile("orders.txt")) {
+                    cout << "Da luu du lieu don hang!\n";
+                }
+
+                cout << "Thoat chuong trinh.\n";
                 break;
 
             default:
@@ -101,15 +108,23 @@ void CRUDMenu(OrderManager& manager) {
                 int ngay, thang, nam;
 
                 while (true) {
-                    cout << "Nhap ngay thang nam (dd mm yyyy): ";
+                    cout << "Nhap ngay thang nam (dd mm yyyy):\n";
 
                     ngay = inputInt("Ngay: ");
                     thang = inputInt("Thang: ");
                     nam = inputInt("Nam: ");
 
-                    if (manager.validateDate(ngay, thang, nam)) break;
+                    if (!manager.isValidDate(ngay, thang, nam)) {
+                        cout << "Ngay thang khong hop le! Nhap lai.\n";
+                        continue;
+                    }
 
-                    cout << "Ngay thang khong hop le! Nhap lai.\n";
+                    if (!manager.isNotFutureDate(ngay, thang, nam)) {
+                        cout << "Ngay tao don khong duoc lon hon ngay hien tai!\n";
+                        continue;
+                    }
+
+                    break;
                 }
 
                 double tien = inputDouble("Nhap tong tien: ");

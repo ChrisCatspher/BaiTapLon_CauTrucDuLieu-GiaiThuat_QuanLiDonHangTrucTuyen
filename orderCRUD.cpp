@@ -3,21 +3,6 @@
 
 using namespace std;
 
-namespace {
-bool isValidDate(int day, int month, int year) {
-    if (year < 1 || month < 1 || month > 12)
-        return false;
-
-    const int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    const bool leapYear = year % 400 == 0 || (year % 4 == 0 && year % 100 != 0);
-    int maxDay = daysInMonth[month - 1];
-    if (month == 2 && leapYear)
-        maxDay = 29;
-    return day >= 1 && day <= maxDay;
-}
-}
-
-
 bool OrderManager::addOrder(const Order& order) {
     const string id = order.getOrderId();
     const double total = order.getTongTien();
@@ -29,6 +14,9 @@ bool OrderManager::addOrder(const Order& order) {
     }
 
     if (!isValidDate(order.getNgay(), order.getThang(), order.getNam()))
+        return false;
+
+    if (!isNotFutureDate(order.getNgay(), order.getThang(), order.getNam()))
         return false;
 
     if (!isfinite(total) || total < 0)
