@@ -54,8 +54,8 @@ Dự án sử dụng các cấu trúc dữ liệu chính:
 ### Bước 1: Clone repository
 
 ```bash
-git clone <LINK_REPOSITORY>
-cd <TEN_THU_MUC_DU_AN>
+git clone https://github.com/ChrisCatspher/BaiTapLon_CauTrucDuLieu-GiaiThuat_QuanLiDonHangTrucTuyen.git
+cd BaiTapLon_CauTrucDuLieu-GiaiThuat_QuanLiDonHangTrucTuyen
 ```
 
 ### Bước 2: Biên dịch chương trình
