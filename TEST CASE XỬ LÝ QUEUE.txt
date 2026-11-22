@@ -10,7 +10,7 @@ NHÓM 1: QUEUE RỖNG
 -------------------------------------------------------------
 TC01
   Thao tác : Queue rỗng, gọi approveOrder("DH01")
-  Mong đợi : trả về false
+  Mong đợi : trả về "Khong co don nao dang cho xu ly"
 
 TC02
   Thao tác : Queue rỗng, gọi cancelFrontOrder()
