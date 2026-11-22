@@ -84,7 +84,7 @@ bool OrderManager::cancelOrder(string id)
 
     Status current = order->getTrangThai();
 
-    if (current != ChoPheDuyet && current != DaDuyet)
+    if (current != ChoPheDuyet)
         return false;
 
     if (!updateStatus(id, Huy))
