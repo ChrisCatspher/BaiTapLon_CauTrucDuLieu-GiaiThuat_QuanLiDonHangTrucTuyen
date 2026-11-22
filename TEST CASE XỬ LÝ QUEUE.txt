@@ -70,7 +70,7 @@ TC11
 
 TC12
   Thao tác : cancelOrder("DH02") (DH02 đang DaDuyet)
-  Mong đợi : trả về true
+  Mong đợi : trả về false
 
 TC13
   Thao tác : updateStatus("KHONGCO", DaDuyet) (id không tồn tại)
