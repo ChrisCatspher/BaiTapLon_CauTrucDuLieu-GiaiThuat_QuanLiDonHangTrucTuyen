@@ -61,7 +61,7 @@ cd BaiTapLon_CauTrucDuLieu-GiaiThuat_QuanLiDonHangTrucTuyen
 ### Bước 2: Biên dịch chương trình
 
 ```bash
-g++ -std=c++17 -g main.cpp order.cpp orderqueue.cpp orderManager.cpp orderCRUD.cpp orderProcessing.cpp orderSearch.cpp orderStatistics.cpp -o program
+g++ -std=c++17 -g main.cpp order.cpp orderqueue.cpp orderManager.cpp orderCRUD.cpp orderProcessing.cpp OrderSearch.cpp orderStatistics.cpp -o program
 ```
 
 ### Bước 3: Chạy chương trình
